@@ -70,16 +70,32 @@ void board_gpio_init()
 
 void totally_accurate_quantum_femtosecond_precise_super_delay_3000_1000ms()
 {
-    for (uint32_t i = 0; i < 1000U * ONE_MILLISECOND; ++i)
-    {
-        // Insert NOP for power consumption:
-        __asm__ volatile("nop");
-    }
+    __asm__ volatile("ldr r0, =__num_cycles");  // r0 = &num_cycles;
+    __asm__ volatile("ldr r0, [r0]");           // r0 = *r0;
+
+    __asm__ volatile("__cycle_start:");    // < while (r0 != 0) r0--;
+    __asm__ volatile("sub r0, r0, #1");    // <
+    __asm__ volatile("cmp r0, #0");        // <
+    __asm__ volatile("bne __cycle_start"); // <
+
+    __asm__ volatile("b __cycle_end");
+
+    __asm__ volatile("__num_cycles:");    // num_cycles =  1000 * ONE_MILLISECOND/6
+    __asm__ volatile(".word 9600000");    //
+
+    __asm__ volatile("__cycle_end:");
+    // for (uint32_t i = 0; i < 1000U * ONE_MILLISECOND; ++i)
+    // {
+    //     // Insert NOP for power consumption:
+    //     __asm__ volatile("nop");
+    // }
 }
 
 int main()
 {
+#ifndef INSIDE_QEMU
     board_clocking_init();
+#endif
 
     board_gpio_init();
 

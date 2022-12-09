@@ -14,6 +14,14 @@ LDFLAGS = \
 	-mcpu=cortex-m0 \
 	-Wl,-T,entry.lds
 
+ifeq ($(DEBUG),1)
+	CFLAGS += -g
+endif
+
+ifeq ($(QEMU),1)
+	CFLAGS += -g -DINSIDE_QEMU
+endif
+
 #-------
 # Files
 #-------
@@ -57,14 +65,26 @@ clean:
 # Hardware interaction
 #----------------------
 
-flash: $(BINARY_FLASH)
-	st-flash write $(BINARY_FLASH) 0x08000000
+QEMU_FLAGS = \
+	-machine STM32F051-Discovery \
+	-cpu cortex-m0 \
+	-kernel $(EXECUTABLE_FLASH) \
+	-serial stdio \
+	-m 32M \
+	-icount 25 \
+	-gdb tcp::1234
 
 GDB_FLAGS = \
 	--eval-command="set architecture arm" \
 	--eval-command="set gnutarget elf32-littlearm" \
 	--eval-command="target remote localhost:1234" \
 	--eval-command="file $(EXECUTABLE_FLASH)"
+
+flash: $(BINARY_FLASH)
+	st-flash write $(BINARY_FLASH) 0x08000000
+
+qemu :  $(EXECUTABLE_FLASH)
+	qemu-system-gnuarmeclipse $(QEMU_FLAGS)
 
 hardware: $(EXECUTABLE_FLASH)
 	st-util -p 1234

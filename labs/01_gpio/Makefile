@@ -5,14 +5,28 @@
 CC = arm-none-eabi-gcc
 
 CFLAGS = \
+	-std=c18 \
+	-Wall \
+	-Wextra \
+	-Werror \
 	-march=armv6-m \
 	-mcpu=cortex-m0
 
 LDFLAGS = \
-	-nostdlib \
+	-Wall \
+	-Wextra \
+	-Werror \
+	-Wl,--start-group -lgcc -lc -lg -Wl,--end-group -Wl,--gc-sections \
 	-march=armv6-m \
 	-mcpu=cortex-m0 \
+	-Wl,--warn-common \
+	-Wl,--fatal-warnings \
+	-Wl,-z,max-page-size=8 \
 	-Wl,-T,entry.lds
+
+ifeq ($(DEBUG),1)
+	CFLAGS += -g
+endif
 
 #-------
 # Files

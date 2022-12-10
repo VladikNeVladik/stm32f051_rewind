@@ -1,3 +1,6 @@
+#include <stdint.h>
+#include <stdbool.h>
+
 //---------------
 // RCC Registers
 //---------------
@@ -54,6 +57,14 @@ static const uint32_t DIGITS[10] =
     A|B|C,         // 7
     A|B|C|D|E|F|G, // 8
     A|B|C|D|F|G    // 9
+};
+
+static const uint32_t POSITIONS[4] =
+{
+         POS1|POS2|POS3, // 0
+    POS0     |POS2|POS3, // 1
+    POS0|POS1     |POS3, // 2
+    POS0|POS1|POS2       // 3
 };
 
 // Display state:
@@ -124,7 +135,7 @@ void board_clocking_init()
 
 void totally_accurate_quantum_femtosecond_precise_super_delay_3000_1ms()
 {
-    for (uint32_t i = 0; i < ONE_MILLISECOND; ++i)
+    for (uint32_t i = 0; i < ONE_MILLISECOND/3; ++i)
     {
         // Insert NOP for power consumption:
         __asm__ volatile("nop");
@@ -175,7 +186,7 @@ int main()
     while (1)
     {
         // Update button state:
-        bool active = GPIO_IDR_BitIsSet(*GPIOA_IDR, 0U);
+        bool active = *GPIOA_IDR & (1U << 0U);
 
         if (active)
         {

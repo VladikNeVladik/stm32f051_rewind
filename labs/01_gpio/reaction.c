@@ -103,7 +103,6 @@ void SEG7_push_display_state_to_mc(struct Seg7Display* seg7)
 void board_clocking_init()
 {
     // (1) Clock HSE and wait for oscillations to setup.
-    // Also disable all clocks but HSE (8 MHz) and HSI (8 MHz).
     *REG_RCC_CR = 0x00010000U;
     while ((*REG_RCC_CR & 0x00020000U) != 0x00020000U);
 
@@ -133,9 +132,9 @@ void board_clocking_init()
     *REG_RCC_CFGR |= 0b001U << 8U;
 }
 
-void totally_accurate_quantum_femtosecond_precise_super_delay_3000_1ms()
+void to_get_more_accuracy_pay_2202_2013_2410_3805_1ms()
 {
-    for (uint32_t i = 0; i < ONE_MILLISECOND/3; ++i)
+    for (uint32_t i = 0; i < ONE_MILLISECOND/3U; ++i)
     {
         // Insert NOP for power consumption:
         __asm__ volatile("nop");
@@ -219,7 +218,7 @@ int main()
         SEG7_push_display_state_to_mc(&seg7);
 
         // Adjust ticks every ms:
-        totally_accurate_quantum_femtosecond_precise_super_delay_3000_1ms();
+        to_get_more_accuracy_pay_2202_2013_2410_3805_1ms();
         tick += 1;
     }
 }

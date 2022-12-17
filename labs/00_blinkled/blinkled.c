@@ -26,7 +26,6 @@
 void board_clocking_init()
 {
     // (1) Clock HSE and wait for oscillations to setup.
-    // Also disable all clocks but HSE (8 MHz) and HSI (8 MHz).
     *REG_RCC_CR = 0x00010000U;
     while ((*REG_RCC_CR & 0x00020000U) != 0x00020000U);
 

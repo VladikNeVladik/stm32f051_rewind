@@ -114,32 +114,18 @@ void board_gpio_init()
 // Main
 //------
 
+#define UART_BAUDRATE 9600
+#define UART_BAUDRATE_FIX -300
+
 int main()
 {
     board_clocking_init();
 
     board_gpio_init();
 
-    UART_init(9600U, CPU_FREQENCY);
+    UART_init(UART_BAUDRATE + UART_BAUDRATE_FIX, CPU_FREQENCY);
 
-    print_string("Hello, world!\n\r");
+    print_string("Hello, world!\r");
 
     while (1);
 }
-
-// What is expected:
-// Text    = Hello, world!\n\r
-// ASCII   = 72 101 108 108 111 44 32 119 111 114 108 100 33
-// What is printed:
-// Text    = Hello,��Kױ��
-// ASCII   = 72 101 108 108 111 44 239 191 189 239 191 189 75 215 177 239 191 189 239 191 189 10
-// 239 191 = 1110 1111 1011 1111
-// 239 191 189 = 1110 1111 1011 1111 1011 1101
-
-//
-// With parity check:
-// 95 = 0101 1111 0 _
-// 47 = 0010 1111 1 /
-// Without parity check:
-// 95 = 0101 1111 _
-//      0010 1111 1

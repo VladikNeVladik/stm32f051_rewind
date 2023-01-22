@@ -32,23 +32,24 @@ endif
 # Files
 #-------
 
-SOURCES = reaction.c
+SOURCES = \
+	entry.S \
+	reaction.c
 
-OBJECTS = reaction.o
+OBJECTS_HALFWAY_DONE = $(SOURCES:%.c=build/%.o)
+OBJECTS              = $(OBJECTS_HALFWAY_DONE:%.S=build/%.o)
 
-ENTRY_FLASH = build/entry.o
-
-EXECUTABLE_FLASH = reaction.elf
-BINARY_FLASH     = reaction.bin
+EXECUTABLE_FLASH = build/reaction.elf
+BINARY_FLASH     = build/reaction.bin
 
 #---------------
 # Build scripts
 #---------------
 
-all: $(ENTRY_FLASH) $(EXECUTABLE_FLASH) $(BINARY_FLASH) $(SOURCES)
+all: $(EXECUTABLE_FLASH) $(BINARY_FLASH) $(SOURCES)
 
-$(EXECUTABLE_FLASH): $(ENTRY_FLASH) $(OBJECTS)
-	$(CC) $(LDFLAGS) $(ENTRY_FLASH) $(OBJECTS) -o $@
+$(EXECUTABLE_FLASH): $(OBJECTS)
+	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
 
 $(BINARY_FLASH): $(EXECUTABLE_FLASH)
 	arm-none-eabi-objcopy -O binary $< $@
@@ -62,9 +63,6 @@ build/%.o: %.S
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
-	rm -rf *.elf
-	rm -rf *.bin
-	rm -rf *.o
 	rm -rf build
 
 #----------------------

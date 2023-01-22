@@ -32,23 +32,26 @@ endif
 # Files
 #-------
 
-SOURCES = systick.c
+SOURCES = \
+	entry.S \
+	systick.c
 
-OBJECTS = systick.o
+OBJECTS_HALFWAY_DONE = $(SOURCES:%.c=build/%.o)
+OBJECTS              = $(OBJECTS_HALFWAY_DONE:%.S=build/%.o)
 
 ENTRY_FLASH = build/entry.o
 
-EXECUTABLE_FLASH = systick.elf
-BINARY_FLASH     = systick.bin
+EXECUTABLE_FLASH = build/systick.elf
+BINARY_FLASH     = build/systick.bin
 
 #---------------
 # Build scripts
 #---------------
 
-all: $(ENTRY_FLASH) $(EXECUTABLE_FLASH) $(BINARY_FLASH) $(SOURCES)
+all: $(EXECUTABLE_FLASH) $(BINARY_FLASH) $(SOURCES)
 
-$(EXECUTABLE_FLASH): $(ENTRY_FLASH) $(OBJECTS)
-	$(CC) $(LDFLAGS) $(ENTRY_FLASH) $(OBJECTS) -o $@
+$(EXECUTABLE_FLASH): $(OBJECTS)
+	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
 
 $(BINARY_FLASH): $(EXECUTABLE_FLASH)
 	arm-none-eabi-objcopy -O binary $< $@
@@ -62,9 +65,6 @@ build/%.o: %.S
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
-	rm -rf *.elf
-	rm -rf *.bin
-	rm -rf *.o
 	rm -rf build
 
 #----------------------

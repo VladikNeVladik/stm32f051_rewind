@@ -9,79 +9,61 @@ CFLAGS = \
 	-Wall \
 	-Wextra \
 	-Werror \
-	-ffreestanding \
-	-nostdlib \
 	-march=armv6-m \
-	-mcpu=cortex-m0 \
-	-fno-pic \
-	-mthumb
+	-mcpu=cortex-m0
 
 LDFLAGS = \
 	-Wall \
 	-Wextra \
 	-Werror \
-	-ffreestanding \
 	-Wl,--start-group -lgcc -lc -lg -Wl,--end-group -Wl,--gc-sections \
 	-march=armv6-m \
 	-mcpu=cortex-m0 \
-	-fno-pic \
-	-mthumb \
 	-Wl,--warn-common \
 	-Wl,--fatal-warnings \
 	-Wl,-z,max-page-size=8 \
 	-Wl,-T,entry.lds
 
-OBJCOPY = arm-none-eabi-objcopy
-
-OBJFLAGS = -O binary
-
 ifeq ($(DEBUG),1)
-	CFLAGS += -g -DDEBUG_BUILD
-else
-	CFLAGS += -flto -Os
-	LDFLAGS += -flto
+	CFLAGS += -g
 endif
+
 
 #-------
 # Files
 #-------
 
-SOURCES = uart.c
+SOURCES = \
+	entry.S \
+	uart.c
 
-OBJECTS = $(SOURCES:%.c=build/%.o)
+OBJECTS_HALFWAY_DONE = $(SOURCES:%.c=build/%.o)
+OBJECTS              = $(OBJECTS_HALFWAY_DONE:%.S=build/%.o)
 
-ENTRY_FLASH = build/entry.o
-
-EXECUTABLE_FLASH = loader.elf
-BINARY_FLASH     = loader.bin
+EXECUTABLE_FLASH = build/uart.elf
+BINARY_FLASH     = build/uart.bin
 
 #---------------
 # Build scripts
 #---------------
 
-all: $(ENTRY_FLASH) $(EXECUTABLE_FLASH) $(BINARY_FLASH) $(SOURCES)
+all: $(EXECUTABLE_FLASH) $(BINARY_FLASH) $(SOURCES)
 
-$(EXECUTABLE_FLASH): $(ENTRY_FLASH) $(OBJECTS)
-	$(CC) $(LDFLAGS) $(ENTRY_FLASH) $(OBJECTS) -o $@
+$(EXECUTABLE_FLASH): $(OBJECTS)
+	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
 
 $(BINARY_FLASH): $(EXECUTABLE_FLASH)
-	$(OBJCOPY) $(OBJFLAGS) $< $@
+	arm-none-eabi-objcopy -O binary $< $@
 
 build/%.o: %.c
-	@echo cc $<
 	@mkdir -p build
-	$(CC) $(CFLAGS) -MMD -MT $@ -MF build/$*.d -o $@ -c $<
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 build/%.o: %.S
-	@echo cc $<
 	@mkdir -p build
-	$(CC) $(CFLAGS) -MMD -MT $@ -MF build/$*.d -o $@ -c $<
+	$(CC) $(CFLAGS) -o $@ -c $<
 
-clean: FORCE
-	rm -rf *.elf
-	rm -rf *.bin
-	rm -rf *.o
-	rm -rf *.d
+clean:
 	rm -rf build
 
 #----------------------

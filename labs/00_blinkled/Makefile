@@ -26,23 +26,24 @@ endif
 # Files
 #-------
 
-SOURCES = blinkled.c
+SOURCES = \
+	entry.S \
+	blinkled.c
 
-OBJECTS = blinkled.o
+OBJECTS_HALFWAY_DONE = $(SOURCES:%.c=build/%.o)
+OBJECTS              = $(OBJECTS_HALFWAY_DONE:%.S=build/%.o)
 
-ENTRY_FLASH = build/entry.o
-
-EXECUTABLE_FLASH = blinkled.elf
-BINARY_FLASH     = blinkled.bin
+EXECUTABLE_FLASH = build/blinkled.elf
+BINARY_FLASH     = build/blinkled.bin
 
 #---------------
 # Build scripts
 #---------------
 
-all: $(ENTRY_FLASH) $(EXECUTABLE_FLASH) $(BINARY_FLASH) $(SOURCES)
+all: $(EXECUTABLE_FLASH) $(BINARY_FLASH) $(SOURCES)
 
-$(EXECUTABLE_FLASH): $(ENTRY_FLASH) $(OBJECTS)
-	$(CC) $(LDFLAGS) $(ENTRY_FLASH) $(OBJECTS) -o $@
+$(EXECUTABLE_FLASH): $(OBJECTS)
+	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
 
 $(BINARY_FLASH): $(EXECUTABLE_FLASH)
 	arm-none-eabi-objcopy -O binary $< $@
@@ -56,9 +57,6 @@ build/%.o: %.S
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
-	rm -rf *.elf
-	rm -rf *.bin
-	rm -rf *.o
 	rm -rf build
 
 #----------------------
@@ -92,4 +90,4 @@ hardware: $(EXECUTABLE_FLASH)
 gdb: $(BINARY_FLASH)
 	arm-none-eabi-gdb $(GDB_FLAGS)
 
-.PHONY: all clean flash hardware gdb
+.PHONY: all clean flash qemu hardware gdb

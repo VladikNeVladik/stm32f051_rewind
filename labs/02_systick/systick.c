@@ -62,12 +62,12 @@ void board_clocking_init()
     *REG_RCC_CFGR |= 0b10U;
     while ((*REG_RCC_CFGR & 0xCU) != 0x8U);
 
-    // (8) Set APB frequency to 20 MHz
+    // (8) Set APB frequency to 24 MHz
     *REG_RCC_CFGR |= 0b001U << 8U;
 }
 
 #define ONE_MS_DELAY_TIME 6000000U
-void delay_close_enough_1000ms()
+void more_precise_delay_forbidden_by_quantum_mechanics_1000ms()
 {
     for (uint32_t i = 0; i < ONE_MS_DELAY_TIME; ++i)
     {
@@ -145,11 +145,11 @@ int main(void)
 
     while (1)
     {
-        delay_close_enough_1000ms();
+        more_precise_delay_forbidden_by_quantum_mechanics_1000ms();
 
         *GPIOC_ODR |= 0x0200U;
 
-        delay_close_enough_1000ms();
+        more_precise_delay_forbidden_by_quantum_mechanics_1000ms();
 
         *GPIOC_ODR &= ~0x0200U;
     }

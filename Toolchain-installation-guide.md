@@ -13,6 +13,8 @@ sudo apt-get update
 sudo apt upgrade
 ```
 
+#### Установите все необходимые пакеты 
+
 - Установите git:
 ```
 sudo apt-get install git
@@ -28,19 +30,17 @@ sudo apt-get install libusb-1.0-0-dev
 sudo apt-get install cmake
 ```
 
-## Установка
+## Установка инструментария разработки
 
-### Установка компилятора и отладчика
-
-#### ARM developer
+### Установка ARM developer toolchain
 
 ARM GNU Embedded Toolchain - это готовый к использованию набор инструментов с открытым исходным кодом для программирования на C, C++ и ассемблере, предназначенный для процессоров семейства ARM Cortex-M и Cortex-R.
 
 Необходимые PPA в нашем случае предоставлены от GCC ARM Embedded.
 
-##### Linux (Ubuntu 20.04)
+#### Linux (Ubuntu 20.04)
 
-Тут ситуация немного посложнее: перейдите на веб-сайт [GNU Arm Embedded Toolchain Downloads](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads) и установите архив с инструментами разработки последней версии (например, **gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2**).  
+Этот случай немного посложнее: перейдите на веб-сайт [GNU Arm Embedded Toolchain Downloads](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads) и установите архив с инструментами разработки последней версии (например, **gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2**).  
 
 Распакуйте архив в каталог установки, вот так:
 
@@ -67,7 +67,7 @@ arm-none-eabi-gcc --version
 
 Если все корректно, то увидите свою версию.
 
-##### Linux (Ubuntu 18.04 и более ранние версии)
+#### Linux (Ubuntu 18.04 и более ранние версии)
 
 Для того, чтобы установить необходимый инструментарий разработки, пропишите следующее: 
 
@@ -77,7 +77,7 @@ sudo apt-get update
 sudo apt-get install gcc-arm-embedded
 ``` 
 
-##### Linux (Fedora)
+#### Linux (Fedora)
 
 Аналогично предыдущему пункту:
 
@@ -87,7 +87,7 @@ sudo yum install arm-none-eabi-binutils-cs
 sudo yum install arm-none-eabi-newlib
 ```
 
-##### MacOS
+#### MacOS
 
 Аналогично:
 
@@ -129,9 +129,9 @@ arm-none-eabi-gcc-7.3.1   arm-none-eabi-ld.bfd
 
 #### Распаковка
 
-Чтобы установить вручную *xPack QEMU Arm*, распакуйте архив и перейдите в **\~/.local/xPacks/qemu-arm/xpack-qemu-arm-\_version\_**:
+Чтобы установить вручную *xPack QEMU Arm*, распакуйте архив и перейдите в `\~/.local/xPacks/qemu-arm/xpack-qemu-arm-\_version\_`:
 
-!!! Вместо *\_version\_* вставьте свою версию, вместо \* пропишите полное имя директории (версия xpack-qemu-arm toolchain). 
+!!! Вместо *\_version\_* вставьте свою версию, вместо \* пропишите полное имя директории (версия xpack-qemu-arm toolchain).
 
 ```
 mkdir -p ~/.local/xPacks/qemu-arm
@@ -155,21 +155,7 @@ echo "export PATH="$PATH:~/.local/xPacks/qemu-arm/xpack-qemu-arm-*/bin"" >> ~/.b
 qemu-system-gnuarmeclipse --version
 ```
 
-### OpenOCD (необязательно)
-
-OpenOCD - это бесплатное решение для отладки на чипе для целей на базе ARM. Это сервер, который открывает удаленный целевой порт GDB и порт Telnet.
-
-Все необходимое для установки OpenOCD можно найти в [OpenOCD](https://sourceforge.net/projects/openocd/files/openocd/0.10.0/).
-
-Следующие команды сгенерируют и установят программу:
-
-```
- ./configure [options]
- make
- sudo make install
-```
-
-### Установка st-link
+### Установка ST-link
 
 Stlink package - это программное обеспечение для программатора ST-Link, которое работает со многими STM-платами. На платах версии discovery программатор встроен в верхнюю часть платы. Вам только нужно убедиться, что вы подключили кабель mini-USB к центральному разъёму с надписью ST-Link.
 
@@ -188,7 +174,7 @@ cd stlink
 make
 ```
 
-Далее выполните следующую команду с правами root: 
+Далее выполните следующую команду с правами root:
 
 ```
 sudo make install

@@ -21,7 +21,6 @@ SECTIONS
     {
         KEEP(*(.vector_table));
         *(.text)
-        *(.text*)
         *(.rodata)
     } > FLASH
 
@@ -31,7 +30,6 @@ SECTIONS
         __data_start_vma = .;
 
         *(.data)
-        *(.data*)
 
         . = ALIGN(4);
         __data_end_vma = .;
@@ -52,5 +50,5 @@ SECTIONS
     __data_start_lma = LOADADDR(.data);
     __bss_start_lma  = LOADADDR(.bss);
 
-    __stack_start = SRAM_PADDR + SRAM_SIZE;
+    __stack_start = SRAM_VADDR + SRAM_SIZE;
 }

@@ -118,8 +118,6 @@ void systick_init(uint32_t period_us)
 
 void systick_handler(void)
 {
-    // Try initializing handler_ticks with 0U.
-    // Does the code work?
     static int handler_ticks = 1U;
 
     handler_ticks += 1U;

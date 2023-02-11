@@ -17,4 +17,11 @@ SECTIONS
     }
 
     __stack_start = SRAM_VADDR + SRAM_SIZE;
+
+    /DISCARD/ :
+    {
+        *(.ARM.attributes)
+        *(.comment)
+        *(.symtab)
+    }
 }

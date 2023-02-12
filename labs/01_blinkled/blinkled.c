@@ -38,7 +38,7 @@ void board_clocking_init()
 
     // (4) Set PLLMUL to 12:
     // SYSCLK frequency = 48 MHz
-    *REG_RCC_CFGR |= (12U-1U) << 18U;
+    *REG_RCC_CFGR |= (12U-2U) << 18U;
 
     // (5) Enable PLL:
     *REG_RCC_CR |= 0x01000000U;

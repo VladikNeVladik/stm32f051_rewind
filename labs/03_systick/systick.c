@@ -62,18 +62,14 @@ void board_clocking_init()
     *REG_RCC_CFGR |= 0b10U;
     while ((*REG_RCC_CFGR & 0xCU) != 0x8U);
 
-    // (8) Set APB frequency to 24 MHz
-    *REG_RCC_CFGR |= 0b001U << 8U;
+    // (8) Set APB frequency to 48 MHz
+    *REG_RCC_CFGR |= 0b000U << 8U;
 }
 
-#define ONE_MS_DELAY_TIME 6000000U
+#define ONE_MS_DELAY_TIME 3692308U // 48000000 / 13
 void more_precise_delay_forbidden_by_quantum_mechanics_1000ms()
 {
-    for (uint32_t i = 0; i < ONE_MS_DELAY_TIME; ++i)
-    {
-        // Insert NOP for power consumption:
-        __asm__ volatile("nop");
-    }
+    for (uint32_t i = 0; i < ONE_MS_DELAY_TIME; ++i);
 }
 
 //--------------------
@@ -122,7 +118,7 @@ void systick_handler(void)
 
     handler_ticks += 1U;
 
-    if (handler_ticks == 10000U)
+    if (handler_ticks == 100U)
     {
         handler_ticks = 0U;
 
@@ -139,9 +135,9 @@ int main(void)
 {
     board_clocking_init();
 
-    systick_init(100U);
-
     board_gpio_init();
+
+    systick_init(10000U);
 
     while (1)
     {

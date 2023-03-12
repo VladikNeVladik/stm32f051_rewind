@@ -86,7 +86,7 @@ __loop_copy_data_section_end:
 	// Execute actual software:
     blx main
 ```
-По сути, это memncpy(\__data_start_lma_val, \__data_start_vma_val, \__data_end_vma_val - \__data_start_vma_val). Ниже в файле определены сами символы:
+По сути, это memcpy(\__data_start_vma_val, \__data_start_lma_val, \__data_end_vma_val - \__data_start_vma_val). Ниже в файле определены сами символы:
 ```assembly
 __data_start_lma_val:
 .word __data_start_lma

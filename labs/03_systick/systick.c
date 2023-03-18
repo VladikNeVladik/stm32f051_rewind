@@ -118,7 +118,7 @@ void systick_handler(void)
 
     handler_ticks += 1U;
 
-    if (handler_ticks == 10000U)
+    if (handler_ticks == 100U)
     {
         handler_ticks = 0U;
 
@@ -137,7 +137,7 @@ int main(void)
 
     board_gpio_init();
 
-    systick_init(100U);
+    systick_init(10000U);
 
     while (1)
     {

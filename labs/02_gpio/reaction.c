@@ -128,8 +128,8 @@ void board_clocking_init()
     *REG_RCC_CFGR |= 0b10U;
     while ((*REG_RCC_CFGR & 0xCU) != 0x8U);
 
-    // (8) Set APB frequency to 24 MHz
-    *REG_RCC_CFGR |= 0b001U << 8U;
+    // (8) Set APB frequency to 48 MHz
+    *REG_RCC_CFGR |= 0b000U << 8U;
 }
 
 void to_get_more_accuracy_pay_2202_2013_2410_3805_1ms()

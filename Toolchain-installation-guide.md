@@ -5,6 +5,8 @@
 
 ## Предварительная установка зависимостей
 
+### Linux
+
 Некоторые требования к установке и использованию этого программного обеспечения следующие (для Ubuntu):
 
 - Обновите систему (необязательный шаг):
@@ -28,6 +30,28 @@ sudo apt-get install libusb-1.0-0-dev
 - Установите cmake:
 ```
 sudo apt-get install cmake
+```
+
+### Windows
+
+Запустите Windows PowerShell
+
+- Установите Scoop:
+```
+  Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+  irm get.scoop.sh | iex
+```
+
+- Добавьте необходимые репозитории:
+```
+  scoop bucket add main
+  scoop bucket add extras
+```
+
+- Установите основные пакеты:
+```
+  scoop install cmake
+  scoop install git
 ```
 
 ## Установка инструментария разработки
@@ -87,6 +111,12 @@ sudo yum install arm-none-eabi-binutils-cs
 sudo yum install arm-none-eabi-newlib
 ```
 
+#### Windows
+
+```
+scoop install gcc-arm-none-eabi
+```
+
 #### MacOS
 
 Аналогично:
@@ -125,9 +155,11 @@ arm-none-eabi-gcc-7.3.1   arm-none-eabi-ld.bfd
 
 **xPack QEMU Arm** - кроссплатформенный двоичный дистрибутив общедоступного проекта QEMU с открытым исходным кодом, который будет использоваться в наших лабах.
 
-Перейдите по ссылке [xPACK-QEMU-ARM releases](https://github.com/xpack-dev-tools/qemu-arm-xpack/releases/) и установите архив последней версии (например, **xpack-qemu-arm-7.1.0-1-linux-x64.tar.gz**)
+Перейдите по ссылке [xPACK-QEMU-ARM releases](https://github.com/xpack-dev-tools/qemu-arm-xpack/releases/) и установите архив последней версии, соответствующей вашей операционной системе (например, **xpack-qemu-arm-7.1.0-1-linux-x64.tar.gz**).
 
 #### Распаковка
+
+##### Linux
 
 Чтобы установить вручную *xPack QEMU Arm*, распакуйте архив и перейдите в `~/.local/xPacks/qemu-arm/xpack-qemu-arm-_version_`:
 
@@ -147,6 +179,13 @@ chmod -R -w xpack-qemu-arm-*
 echo "export PATH="$PATH:~/.local/xPacks/qemu-arm/xpack-qemu-arm-*/bin"" >> ~/.bashrc && source ~/.bashrc
 ```
 
+##### Windows
+
+Распакуйте установленный архив в удобное место и добавьте путь к папке bin в PATH. Это можно сделать так:
+1. Зайти по порядку в "система"\"дополнительные параметры системы"\"переменные среды".
+2. Найти на экране поле PATH, нажать кнопку изменить.
+3. Добавить соответствующий путь к переменной PATH.
+
 #### Проверка
 
 Чтобы проверить, запускается ли установленный вручную QEMU, попробуйте посмотреть версию:
@@ -158,6 +197,12 @@ qemu-system-gnuarmeclipse --version
 ### Установка ST-link
 
 Stlink package - это программное обеспечение для связи с программатором ST-Link, которое работает со многими другими палатами STM32. На плате STM32F051-Discovery программатор реализован на основе микроконтроллера STM32F103C8T6 (blue pill).
+
+#### Windows
+
+Для начала скачайте драйвер ST-Link [здесь](https://www.st.com/en/development-tools/stsw-link009.html#get-software).
+Затем установите [приложение](https://www.st.com/en/development-tools/stsw-link004.html).
+В дальнейшем для того чтобы, например, выгрузить код в память микроконтроллера, Вам будет необходимо использовать именно это приложение.
 
 #### Linux (Ubuntu)
 

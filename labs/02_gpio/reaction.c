@@ -97,8 +97,8 @@ void SEG7_push_display_state_to_mc(struct Seg7Display* seg7)
 // RCC configuration
 //-------------------
 
-#define CPU_FREQENCY 48000000U // CPU frequency: 48 MHz
-#define ONE_MILLISECOND CPU_FREQENCY/1000U
+#define CPU_FREQUENCY 48000000U // CPU frequency: 48 MHz
+#define ONE_MILLISECOND CPU_FREQUENCY/1000U
 
 void board_clocking_init()
 {

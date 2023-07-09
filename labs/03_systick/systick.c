@@ -31,7 +31,7 @@
 // RCC configuration
 //-------------------
 
-#define CPU_FREQENCY 48000000U // CPU frequency: 48 MHz
+#define CPU_FREQUENCY 48000000U // CPU frequency: 48 MHz
 #define ONE_MILLISECOND 48000U
 
 void board_clocking_init()
@@ -100,7 +100,7 @@ void systick_init(uint32_t period_us)
     // Assumptions:
     // - There is a reference clock and it can be chosen as clock source.
     // - The SYST_CALIB SKEW bit is 1.
-    uint32_t reload_value = period_us * (CPU_FREQENCY / 1000000U) / 8;
+    uint32_t reload_value = period_us * (CPU_FREQUENCY / 1000000U) / 8;
 
     // (1) Program the reload value:
     *SYSTICK_RVR = (reload_value - 1U) & 0x00FFFFFFU;

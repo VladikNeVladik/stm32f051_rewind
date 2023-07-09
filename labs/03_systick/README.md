@@ -150,9 +150,9 @@ SYMBOL TABLE:
 00000000 l    d  .text  00000000 .text
 00000000 l    d  .data  00000000 .data
 00000000 l    d  .bss   00000000 .bss
-0000001c l       .text  00000000 __data_start_lma_val
 00000020 l       .text  00000000 __data_start_vma_val
 00000024 l       .text  00000000 __data_end_vma_val
+0000001c l       .text  00000000 __data_start_lma_val
 00000006 l       .text  00000000 __loop_copy_data_section
 00000014 l       .text  00000000 __loop_copy_data_section_end
 00000018 l       .text  00000000 __halt

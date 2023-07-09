@@ -37,8 +37,8 @@
 // RCC configuration
 //-------------------
 
-#define CPU_FREQENCY 48000000U // CPU frequency: 48 MHz
-#define ONE_MILLISECOND CPU_FREQENCY/1000U
+#define CPU_FREQUENCY 48000000U // CPU frequency: 48 MHz
+#define ONE_MILLISECOND CPU_FREQUENCY/1000U
 
 void board_clocking_init()
 {
@@ -170,7 +170,7 @@ int main()
 
     board_gpio_init();
 
-    uart_init(UART_BAUDRATE + UART_BAUDRATE_FIX, CPU_FREQENCY);
+    uart_init(UART_BAUDRATE + UART_BAUDRATE_FIX, CPU_FREQUENCY);
 
     print_string("Hello, world!\r");
 

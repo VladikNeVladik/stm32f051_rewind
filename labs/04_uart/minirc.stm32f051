@@ -1,9 +1,0 @@
-# Machine-generated file - use "minicom -s" to change parameters.
-pu baudrate         9600
-pu bits             8
-pu parity           N
-pu stopbits         2
-pu rtscts           No
-pu localecho        Yes
-pu addlinefeed      Yes
-pu linewrap         Yes
